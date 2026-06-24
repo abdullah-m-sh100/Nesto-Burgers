@@ -1,0 +1,285 @@
+.navbar-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: rgba(11, 9, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-card-border);
+  transition: background-color var(--transition-normal);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  height: 80px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Brand Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-size-lg);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+.logo-emoji {
+  font-size: 2rem;
+  animation: bounceSlow 5s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-emoji img {
+  height: 50px;
+  width: 50px;
+}
+.logo-text {
+  color: var(--color-text-white);
+  text-transform: uppercase;
+}
+
+.logo-highlight {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+/* Navigation Links */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.nav-link {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-gray);
+  padding: 0.5rem 0.25rem;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+  color: var(--color-text-white);
+}
+
+/* Active Nav Indicator */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-secondary);
+  border-radius: 2px;
+  transition: width var(--transition-normal);
+}
+
+html[dir="rtl"] .nav-link::after {
+  left: auto;
+  right: 0;
+}
+
+.nav-link.active {
+  color: var(--color-text-white);
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Actions Section */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Lang button */
+.nav-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.5rem 0.9rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text-white);
+  font-weight: 700;
+  border-radius: var(--border-radius);
+  font-size: 0.85rem;
+}
+
+.nav-lang-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-secondary);
+}
+
+/* Cart Button */
+.nav-cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+  border-radius: var(--border-radius);
+  font-size: 1.25rem;
+}
+
+.nav-cart-btn:hover {
+  background-color: #b21e1e;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(214, 40, 40, 0.3);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--color-secondary);
+  color: var(--color-bg-dark);
+  font-size: 0.75rem;
+  font-weight: 800;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-bg-dark);
+  padding: 0 4px;
+}
+
+html[dir="rtl"] .cart-badge {
+  right: auto;
+  left: -6px;
+}
+
+/* Mobile Hamburger Toggler */
+.navbar-toggler {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 101;
+}
+
+.navbar-toggler span {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-text-white);
+  border-radius: 2px;
+  transition: all var(--transition-normal);
+}
+
+.navbar-toggler.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-toggler.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggler.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Utilities */
+.mobile-only {
+  display: none;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .navbar-toggler {
+    display: flex;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .navbar-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: var(--color-card-bg);
+    border-left: 1px solid var(--color-card-border);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 100px var(--spacing-lg) var(--spacing-lg);
+    gap: var(--spacing-md);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition:
+      transform var(--transition-normal),
+      visibility var(--transition-normal);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+
+  html[dir="rtl"] .navbar-nav {
+    right: auto;
+    left: 0;
+    border-left: none;
+    border-right: 1px solid var(--color-card-border);
+    transform: translateX(-100%);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .navbar-nav.active {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  html[dir="rtl"] .navbar-nav.active {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .nav-link {
+    width: 100%;
+    font-size: var(--font-size-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-xs) 0;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link.active {
+    color: var(--color-secondary);
+    font-weight: 700;
+  }
+
+  .nav-lang-btn.mobile-only {
+    margin-top: var(--spacing-md);
+    width: 100%;
+    justify-content: center;
+  }
+}
