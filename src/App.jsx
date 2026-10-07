@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LanguageProvider, useLanguage } from './context/LanguageContext';
-import { CartProvider, useCart } from './context/CartContext';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
+import { CartProvider } from './context/CartContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -17,27 +17,19 @@ import Gallery from './pages/Gallery';
 import Reviews from './pages/Reviews';
 import Contact from './pages/Contact';
 
-// Floating Button that interacts with the Cart
-const FloatingActionButton = () => {
-  const { toggleCart, getCartCount } = useCart();
-  const { language } = useLanguage();
-
-  return (
-    <button 
-      onClick={toggleCart} 
-      className="floating-order-btn" 
-      aria-label="Toggle Shopping Cart"
-      title={language === 'ar' ? 'اعرض السلة' : 'View Cart'}
-    >
-      <i className="fa-solid fa-basket-shopping"></i>
-      {getCartCount() > 0 && <span className="cart-badge">{getCartCount()}</span>}
-    </button>
-  );
+// Scroll to top whenever the route changes
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 };
 
 const AppContent = () => {
   return (
     <div className="app-container">
+      <ScrollToTop />
       {/* Header Navigation */}
       <Navbar />
 
@@ -59,9 +51,6 @@ const AppContent = () => {
 
       {/* Cart Slider Overlay */}
       <CartModal />
-
-      {/* Floating CTA Button */}
-      <FloatingActionButton />
     </div>
   );
 };

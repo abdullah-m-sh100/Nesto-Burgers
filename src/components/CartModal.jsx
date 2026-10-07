@@ -36,7 +36,7 @@ const CartModal = () => {
     });
 
     const totalText = language === 'ar' ? 'المجموع الكلي' : 'Total Price';
-    message += `%0A💵 *${totalText}: $${getCartTotal()}*%0A%0A`;
+    message += `%0A*${totalText}: $${getCartTotal()}*%0A%0A`;
     message += language === 'ar' 
       ? `شكراً لكم! أرجو تأكيد الطلب وتحديد وقت التوصيل.`
       : `Thank you! Please confirm my order and let me know the estimated delivery time.`;
@@ -47,15 +47,16 @@ const CartModal = () => {
   };
 
   return (
-    <div className={`cart-overlay-wrapper ${isCartOpen ? 'open' : ''}`} onClick={toggleCart}>
+    <div className={`cart-overlay-wrapper ${isCartOpen ? 'open' : ''}`} onClick={toggleCart} aria-hidden={!isCartOpen}>
       <div 
-        className="cart-sidebar" 
+        className="cart-sidebar" role="dialog" aria-modal="true"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking drawer content
       >
         {/* Cart Header */}
         <div className="cart-sidebar-header">
           <h2>
-            <i className="fa-solid fa-bag-shopping"></i> {t('cart.title')}
+            {t('cart.title')}
+            {cartItems.length > 0 && <span className="cart-count-pill">{cartItems.length}</span>}
           </h2>
           <button className="cart-close-btn" onClick={toggleCart} aria-label="Close Cart">
             <i className="fa-solid fa-xmark"></i>
@@ -66,7 +67,7 @@ const CartModal = () => {
         <div className="cart-sidebar-body">
           {cartItems.length === 0 ? (
             <div className="empty-cart-state">
-              <span className="empty-cart-icon">🍔</span>
+              <span className="empty-cart-icon"><i className="fa-solid fa-bag-shopping"></i></span>
               <p>{t('cart.empty')}</p>
               <button className="btn btn-primary" onClick={handleShopRedirect}>
                 {t('hero.viewMenu')}

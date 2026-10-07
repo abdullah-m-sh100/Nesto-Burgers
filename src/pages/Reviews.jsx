@@ -3,7 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import './Reviews.css';
 
 const Reviews = () => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   
   // Initial Reviews List
   const [reviewsList, setReviewsList] = useState([

@@ -1,25 +1,18 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import { products } from "../data/products";
 import "./Home.css";
 
-import logo from "../assets/logo.png";
-
 const Home = () => {
   const { language, t } = useLanguage();
-  const { addToCart, toggleCart } = useCart();
-  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   // Filter out best sellers for home page
   const bestSellers = products
     .filter((product) => product.isBestseller)
     .slice(0, 3);
-
-  const handleOrderNowClick = () => {
-    navigate("/menu");
-  };
 
   return (
     <div className="home-page-wrapper page-fade-in">
@@ -28,27 +21,23 @@ const Home = () => {
         <div className="hero-overlay"></div>
         <div className="container hero-container">
           <div className="hero-content">
-            <span className="hero-badge-top">🔥 {t("offers.limitedTime")}</span>
+            <span className="hero-badge-top"><i className="fa-solid fa-bolt"></i> {t("offers.limitedTime")}</span>
             <h1 className="hero-title">
               <div className="hero-title-text">
                 {t("logo.nesto")}{" "}
                 <span className="highlight-text">{t("logo.burgers")}</span>
               </div>
-              <img src={logo} alt="" />
             </h1>
             <h2 className="hero-tagline">{t("hero.tagline")}</h2>
             <p className="hero-subtagline">{t("hero.subTagline")}</p>
 
             <div className="hero-cta-group">
               <Link to="/menu" className="btn btn-secondary btn-hero-primary">
-                <i className="fa-solid fa-utensils"></i> {t("hero.viewMenu")}
+                <i className="fa-solid fa-utensils"></i> {t("hero.orderNow")}
               </Link>
-              <button
-                onClick={handleOrderNowClick}
-                className="btn btn-primary btn-hero-secondary"
-              >
-                <i className="fa-solid fa-fire"></i> {t("hero.orderNow")}
-              </button>
+              <Link to="/offers" className="btn btn-outline btn-hero-secondary">
+                {t("nav.offers")}
+              </Link>
             </div>
           </div>
           <div className="hero-visual">

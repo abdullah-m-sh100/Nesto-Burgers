@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
@@ -8,26 +8,49 @@ import { MdLanguage } from "react-icons/md";
 
 import logo from "../assets/logo.png";
 
+const NAV_ITEMS = [
+  { to: "/", key: "home" },
+  { to: "/menu", key: "menu" },
+  { to: "/offers", key: "offers" },
+  { to: "/about", key: "about" },
+  { to: "/gallery", key: "gallery" },
+  { to: "/reviews", key: "reviews" },
+  { to: "/contact", key: "contact" },
+];
+
 const Navbar = () => {
   const { language, switchLanguage, t } = useLanguage();
   const { getCartCount, toggleCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  // Strengthen the bar once the page is scrolled
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  // Lock page scroll while the mobile drawer is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const closeMenu = () => setIsOpen(false);
 
   const handleLangToggle = () => {
     switchLanguage(language === "en" ? "ar" : "en");
     closeMenu();
   };
 
+  const count = getCartCount();
+
   return (
-    <header className="navbar-header">
+    <header className={`navbar-header ${scrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         {/* Brand Logo */}
         <Link to="/" className="navbar-logo" onClick={closeMenu}>
@@ -40,97 +63,64 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Menu */}
+        {/* Links */}
         <nav className={`navbar-nav ${isOpen ? "active" : ""}`}>
-          <NavLink
-            to="/"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.home")}
-          </NavLink>
-          <NavLink
-            to="/menu"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.menu")}
-          </NavLink>
-          <NavLink
-            to="/offers"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.offers")}
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.about")}
-          </NavLink>
-          <NavLink
-            to="/gallery"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.gallery")}
-          </NavLink>
-          <NavLink
-            to="/reviews"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.reviews")}
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            onClick={closeMenu}
-          >
-            {t("nav.contact")}
-          </NavLink>
+          <div className="nav-links-group">
+            {NAV_ITEMS.map(({ to, key }) => (
+              <NavLink
+                key={to}
+                to={to}
+                end={to === "/"}
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+                onClick={closeMenu}
+              >
+                {t(`nav.${key}`)}
+              </NavLink>
+            ))}
+          </div>
 
-          {/* Mobile language switch inside nav drawer */}
-          <button
-            onClick={handleLangToggle}
-            className="nav-lang-btn mobile-only"
-          >
-            <MdLanguage /> {language === "en" ? "العربية" : "English"}
-          </button>
+          {/* Mobile-only actions inside the drawer */}
+          <div className="nav-drawer-actions mobile-only">
+            <Link to="/menu" className="btn btn-secondary" onClick={closeMenu}>
+              <i className="fa-solid fa-utensils"></i> {t("hero.orderNow")}
+            </Link>
+            <button onClick={handleLangToggle} className="nav-lang-btn">
+              <MdLanguage /> {language === "en" ? "العربية" : "English"}
+            </button>
+          </div>
         </nav>
 
-        {/* Right Actions (Cart & Lang & Menu togglers) */}
+        {/* Actions */}
         <div className="navbar-actions">
-          {/* Language Switcher */}
           <button
             onClick={handleLangToggle}
             className="nav-lang-btn desktop-only"
             aria-label="Toggle Language"
           >
             <MdLanguage />
-
             <span>{language === "en" ? "AR" : "EN"}</span>
           </button>
 
-          {/* Shopping Cart Trigger */}
+          <Link to="/menu" className="btn btn-secondary nav-cta desktop-only">
+            {t("hero.orderNow")}
+          </Link>
+
           <button
             onClick={toggleCart}
             className="nav-cart-btn"
-            aria-label="Open Shopping Cart"
+            aria-label={t("nav.cart")}
           >
             <BsCart4 />
-            {getCartCount() > 0 && (
-              <span className="cart-badge">{getCartCount()}</span>
-            )}
+            {count > 0 && <span className="cart-badge">{count}</span>}
           </button>
 
-          {/* Mobile Hamburger menu */}
           <button
-            onClick={toggleMenu}
+            onClick={() => setIsOpen((v) => !v)}
             className={`navbar-toggler ${isOpen ? "open" : ""}`}
             aria-label="Toggle Navigation"
+            aria-expanded={isOpen}
           >
             <span></span>
             <span></span>
