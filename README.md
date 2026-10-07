@@ -4,13 +4,17 @@
 
 # Nesto Burgers
 
-**A bilingual (Arabic / English) online storefront for a burger restaurant in Nablus.**
+**A bilingual (Arabic / English) online storefront for a smash-burger restaurant in Nablus.**
 Browse the menu, build a cart, and send the order straight to WhatsApp.
+
+[**Live website →**](https://amazing-palmier-108122.netlify.app)
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=reactrouter&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Languages](https://img.shields.io/badge/Languages-AR%20%7C%20EN-D62828)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
 </div>
 
@@ -35,6 +39,18 @@ The interface is fully bilingual. Arabic is the default and renders right-to-lef
 - **Responsive**: sticky navbar with a full-screen mobile drawer, fluid grids, touch-friendly gallery captions.
 - **Accessible defaults**: visible keyboard focus, ARIA labels on icon buttons, and `prefers-reduced-motion` support.
 
+## Pages
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Hero, why-choose-us highlights, best sellers |
+| `/menu` | Full menu with search and category filters |
+| `/offers` | Current promotions and promo codes |
+| `/about` | Story, mission, vision and what sets the restaurant apart |
+| `/gallery` | Photo gallery with lightbox |
+| `/reviews` | Customer testimonials and a review form |
+| `/contact` | Contact details, message form and map |
+
 ## Tech stack
 
 | Area | Choice |
@@ -46,6 +62,7 @@ The interface is fully bilingual. Arabic is the default and renders right-to-lef
 | Icons | Font Awesome 6 (CDN) and `react-icons` |
 | Fonts | Tajawal (Google Fonts) |
 | Linting | Oxlint |
+| Hosting | Netlify |
 
 ## Getting started
 
@@ -97,11 +114,33 @@ src/
 - **Brand colors, spacing and type scale:** change the CSS variables at the top of `src/index.css`.
 - **Order destination:** the WhatsApp number is set where the order links are built (`CartModal.jsx`, `Offers.jsx`, `Contact.jsx`, `Footer.jsx`).
 
-## Notes
+## Deployment
 
-- The menu, offers and reviews are static data; there is no server or database. Reviews and contact-form submissions added in the browser are not persisted.
-- Pushing to `main` does not deploy automatically; build with `npm run build` and host the `dist/` folder on any static host.
+The site is hosted on Netlify. To deploy elsewhere, run `npm run build` and publish the `dist/` folder on any static host.
+
+> Menu, offers and reviews are static data; there is no server or database. Reviews and contact-form submissions made in the browser are not persisted.
+
+## Restaurant information
+
+| Item | Details |
+| --- | --- |
+| Location | Nablus, Palestine |
+| Opening hours | Daily 10:00 AM – 12:00 AM |
+| Delivery | Fast local delivery |
+| Languages | Arabic & English |
+| Ordering | Website cart + WhatsApp |
+
+## Developer
+
+**Abdullah M. Abu Shamla** — Frontend developer.
+GitHub: [@Abdullah-m-sh100](https://github.com/Abdullah-m-sh100)
 
 ## License
 
-No license has been specified for this repository. All rights reserved by the author unless one is added.
+Released under the MIT License.
+
+<div align="center">
+
+Made with ❤️ in Palestine 🇵🇸
+
+</div>
